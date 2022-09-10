@@ -1,5 +1,5 @@
 <h1>Hey, I'm James Amo 👋🇬🇭</h1>
-<h3>An enthusiastic software engineer currently based in Ghana 🇬🇭</h3>
+<h3>An enthusiastic SWE currently based in Ghana 🇬🇭</h3>
 <p>
 I am a software engineer with 1+ years of professional experience and an entrepreneur. I am an ardent believer of innovative ideas to changing the world and making it a better place.
 <br><br>
