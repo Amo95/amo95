@@ -1,26 +1,38 @@
-name: Update README with Experience
+name: Update Years of Experience
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs every day at midnight UTC
-  workflow_dispatch:  # Allows manual triggering
+    # Run once a year on January 1st
+    - cron: '0 0 1 1 *'
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         
-      - name: Calculate Experience
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          
+      - name: Update years of experience
         run: |
-          START_YEAR=2020  # Change this to your actual starting year
-          CURRENT_YEAR=$(date +"%Y")
-          EXPERIENCE=$((CURRENT_YEAR - START_YEAR))
-          sed -i "s/{{years_of_experience}}/${EXPERIENCE}/g" README.md
-        
+          # Calculate years since your career start date
+          START_YEAR=2020  # Replace with the year you started your career
+          CURRENT_YEAR=$(date +%Y)
+          YEARS_OF_EXPERIENCE=$((CURRENT_YEAR - START_YEAR))
+          
+          # Replace the placeholder in the README template
+          sed -i "s/{{YEARS_OF_EXPERIENCE}}/$YEARS_OF_EXPERIENCE/g" README.md.template
+          cp README.md.template README.md
+          
       - name: Commit and push if changed
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git diff --quiet || (git add README.md && git commit -m "Auto-update years of experience" && git push)
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update years of experience to $YEARS_OF_EXPERIENCE"
+          git push
