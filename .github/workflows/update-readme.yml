@@ -1,0 +1,26 @@
+name: Update README with Experience
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs every day at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Calculate Experience
+        run: |
+          START_YEAR=2020  # Change this to your actual starting year
+          CURRENT_YEAR=$(date +"%Y")
+          EXPERIENCE=$((CURRENT_YEAR - START_YEAR))
+          sed -i "s/{{years_of_experience}}/${EXPERIENCE}/g" README.md
+        
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet || (git add README.md && git commit -m "Auto-update years of experience" && git push)
