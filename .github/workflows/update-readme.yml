@@ -1,11 +1,9 @@
 name: Update Years of Experience
-
 on:
   schedule:
     # Run once a year on January 1st
     - cron: '0 0 1 1 *'
   workflow_dispatch: # Allows manual triggering
-
 jobs:
   update-readme:
     runs-on: ubuntu-latest
@@ -25,9 +23,8 @@ jobs:
           CURRENT_YEAR=$(date +%Y)
           YEARS_OF_EXPERIENCE=$((CURRENT_YEAR - START_YEAR))
           
-          # Replace the placeholder in the README template
-          sed -i "s/{{YEARS_OF_EXPERIENCE}}/$YEARS_OF_EXPERIENCE/g" README.md.template
-          cp README.md.template README.md
+          # Replace the placeholder in the README
+          sed -i "s/{{YEARS_OF_EXPERIENCE}}/$YEARS_OF_EXPERIENCE/g" README.md
           
       - name: Commit and push if changed
         run: |
