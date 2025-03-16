@@ -1,7 +1,7 @@
 import datetime
 
 # Define your start date
-start_date = datetime.date(2020, 7, 1)  # Replace with your actual start date
+start_date = datetime.date(2020, 9, 15)  # Replace with your actual start date
 
 current_date = datetime.date.today()
 
