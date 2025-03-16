@@ -22,8 +22,8 @@ jobs:
           python update_readme.py
       - name: Commit and push changes
         run: |
-          git config --global user.name "Your Name"
-          git config --global user.email "your.email@example.com"
+          git config --global user.name "amo95"
+          git config --global user.email "jameaamo@gmail.com"
           git add .
           git commit -m "Update years of experience"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
