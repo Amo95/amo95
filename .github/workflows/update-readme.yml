@@ -1,35 +1,29 @@
-name: Update Years of Experience
+name: Update README
+
 on:
   schedule:
-    # Run once a year on January 1st
-    - cron: '0 0 1 1 *'
-  workflow_dispatch: # Allows manual triggering
+    - cron: "0 0 15 9 *"  # Runs on July 1st each year at midnight UTC
+      # Adjust the date to your start date, e.g., "0 0 15 7 *" for July 15th
+
 jobs:
   update-readme:
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu-20.04
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/check-out@v3
+      - name: Set up Python
+        uses: actions/set-up-python@v2
         with:
-          node-version: '16'
-          
-      - name: Update years of experience
+          python-version: 3.8
+      - name: Update README
         run: |
-          # Calculate years since your career start date
-          START_YEAR=2020  # Replace with the year you started your career
-          CURRENT_YEAR=$(date +%Y)
-          YEARS_OF_EXPERIENCE=$((CURRENT_YEAR - START_YEAR))
-          
-          # Replace the placeholder in the README
-          sed -i "s/{{YEARS_OF_EXPERIENCE}}/$YEARS_OF_EXPERIENCE/g" README.md
-          
-      - name: Commit and push if changed
+          python update_readme.py
+      - name: Commit and push changes
         run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add README.md
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update years of experience to $YEARS_OF_EXPERIENCE"
-          git push
+          git config --global user.name "Your Name"
+          git config --global user.email "your.email@example.com"
+          git add .
+          git commit -m "Update years of experience"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
